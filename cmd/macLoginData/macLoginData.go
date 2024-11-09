@@ -16,7 +16,7 @@ func main() {
 
 	cmdArgs := flag.Args()
 	browserName := cmdArgs[0]
-	cookiesFile := cmdArgs[1]
+	loginDataFile := cmdArgs[1]
 
 	if strings.EqualFold(browserName, "Chrome") || strings.EqualFold(browserName, "Edge") {
 		var secretKey []byte
@@ -25,12 +25,12 @@ func main() {
 			//fmt.Println("mac")
 			browserPassword := cmdArgs[2]
 			secretKey = decrypt.MacPassword2SecretKey(browserPassword)
-			decryptedLoginData = decrypt.ChromeLoginData(cookiesFile, secretKey, "mac")
+			decryptedLoginData = decrypt.ChromeLoginData(loginDataFile, secretKey, "mac")
 		} else {
 			//fmt.Println("win")
 			secretKeyBase64 := cmdArgs[2]
 			secretKey, _ = base64.StdEncoding.DecodeString(secretKeyBase64)
-			decryptedLoginData = decrypt.ChromeLoginData(cookiesFile, secretKey, "win")
+			decryptedLoginData = decrypt.ChromeLoginData(loginDataFile, secretKey, "win")
 		}
 
 		parser.PrintLoginData(decryptedLoginData)
