@@ -1,6 +1,6 @@
 module github.com/kawakatz/macLoginData
 
-go 1.19
+go 1.27.0
 
 require (
 	github.com/cixtor/binarycookies v1.2.0

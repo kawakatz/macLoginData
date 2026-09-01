@@ -2,7 +2,6 @@
 <p align="center">
 <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-_red.svg"></a>
 <a href="https://github.com/kawakatz/macLoginData/issues"><img src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat"></a>
-<a href="https://goreportcard.com/badge/github.com/kawakatz/macLoginData"><img src="https://goreportcard.com/badge/github.com/kawakatz/macLoginData"></a>
 <a href="https://github.com/kawakatz/macLoginData/releases"><img src="https://img.shields.io/github/v/release/kawakatz/macLoginData"></a>
 <a href="https://github.com/kawakatz/macLoginData/blob/master/go.mod"><img src="https://img.shields.io/github/go-mod/go-version/kawakatz/macLoginData"></a>
 <a href="https://x.com/kawakatz"><img src="https://img.shields.io/twitter/follow/kawakatz"></a>
