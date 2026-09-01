@@ -3,6 +3,7 @@ package decrypt
 import (
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/pbkdf2"
 	"crypto/sha1"
 	"database/sql"
 	"errors"
@@ -13,7 +14,6 @@ import (
 
 	"github.com/cixtor/binarycookies"
 	_ "github.com/mattn/go-sqlite3"
-	"golang.org/x/crypto/pbkdf2"
 )
 
 var (
@@ -83,10 +83,10 @@ func SafariCookies(cookiesFile string) []types.Cookie {
 }
 
 func MacPassword2SecretKey(chromePassword string) []byte {
-	chromeSecret := []byte(chromePassword)
-	chromeSalt := []byte("saltysalt")
-	secretKey := pbkdf2.Key(chromeSecret, chromeSalt, 1003, 16, sha1.New)
-
+	secretKey, err := pbkdf2.Key(sha1.New, chromePassword, []byte("saltysalt"), 1003, 16)
+	if err != nil {
+		panic(err)
+	}
 	return secretKey
 }
 
