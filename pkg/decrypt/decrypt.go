@@ -1,10 +1,12 @@
 package decrypt
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/pbkdf2"
 	"crypto/sha1"
+	"crypto/sha256"
 	"database/sql"
 	"errors"
 	"os"
@@ -123,7 +125,7 @@ func ChromeCookies(cookiesFile string, secretKey []byte, osType string) []types.
 		} else {
 			value, _ = decryptWindowsChrome(secretKey, encryptValue)
 		}
-		cookie.Value = string(value)
+		cookie.Value = string(stripCookieHostHash(value, host))
 
 		decryptedCookies = append(decryptedCookies, cookie)
 	}
@@ -184,24 +186,24 @@ func decryptChromeAES(secretKey, encryptValue []byte) ([]byte, error) {
 }
 
 func decryptWindowsChrome(secretKey, encryptValue []byte) ([]byte, error) {
-	if len(encryptValue) > 3 {
-		block, _ := aes.NewCipher(secretKey)
-		gcm, _ := cipher.NewGCM(block)
-
-		nonce := encryptValue[3 : 3+12]
-		version := string(encryptValue[:3])
-
-		value, err := gcm.Open(nil, nonce, encryptValue[3+12:], nil)
-
-		if version == "v20" {
-			value = value[32:]
-		}
-
-		// if v20, remove first 32 bytes
-		return value, err
-	} else {
+	block, err := aes.NewCipher(secretKey)
+	if err != nil {
+		return nil, err
+	}
+	gcm, err := cipher.NewGCM(block)
+	if err != nil {
+		return nil, err
+	}
+	offset := 3 + gcm.NonceSize()
+	if len(encryptValue) < offset+gcm.Overhead() {
 		return nil, errDecryptFailed
 	}
+	return gcm.Open(nil, encryptValue[3:offset], encryptValue[offset:], nil)
+}
+
+func stripCookieHostHash(value []byte, host string) []byte {
+	hash := sha256.Sum256([]byte(host))
+	return bytes.TrimPrefix(value, hash[:])
 }
 
 func aes128CBCDecrypt(key, iv, encryptPass []byte) ([]byte, error) {
